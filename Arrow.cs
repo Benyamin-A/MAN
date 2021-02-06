@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Arrow: Weapon
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public override void swing()
+    { 
+        Debug.Log("From the Arrow: arrow stab"); 
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void throws()
     {
-        
+        Debug.Log("From the Arrow: whisle sound");
     }
+    
+
+
+    
+
 }
