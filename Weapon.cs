@@ -3,12 +3,12 @@ using UnityEngine;
 public abstract class Weapon
 {
 
-    private int _damage;
-    private int _countsCarried;
+    abstract public int Damage { get; protected set; }
+    abstract public int CountsCarried { get; protected set; }
 
-    public abstract void throws();
-     
-    public abstract void swing();
+    abstract public void throws();
+
+    abstract public void swing();
    
     public void pickUp() 
     {
