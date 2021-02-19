@@ -7,10 +7,17 @@ public class InputManager : MonoBehaviour
 {
     public float speed;
     public float sprintSpeed;
-    //To store the walk speed before running
-    private float walkSpeed;
-    private Vector2 inputVector;
     public CharacterController controller;
+    
+    public float jumpSpeed;
+    public float gravity;
+
+    [SerializeField]
+    //To store the walk speed before running and switch back to afterwards
+    private float walkSpeed;    
+    private Vector2 inputVector;
+
+
     public void OnSwing(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -21,18 +28,7 @@ public class InputManager : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            Debug.Log("He started to aim!");
-        }
-        else if (context.performed)
-        {
-            Debug.Log("He's still aiming!");
-        }
-        else if (context.canceled)
-        {
-            Debug.Log("He's stopped aiming!");
-        }
+
     }
 
     public void OnThrow(InputAction.CallbackContext context)
@@ -43,60 +39,66 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+
+    }
+
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.started)
+       if (context.performed)
         {
-            Debug.Log("He started to run!");
-        }
-        else if (context.performed)
-        {
-            Debug.Log("He's still running!");
             //switch the speed to sprinting
             speed = this.sprintSpeed;
         }
         else if (context.canceled)
         {
             //switch the speed back to walking
-            Debug.Log("He's stopped running!");
             speed = walkSpeed;
         }
     }
+
+
+
+
+
+
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        /*if (context.started)
         {
-            Debug.Log("He Jumped!");
+            if (controller.isGrounded && !isJumping)
+            {
+                isJumping = true;
+                velocity = inputVector * speed;
+                velocity.y = Mathf.Sqrt(2 * gravity * jumpHeight);
+            } 
         }
+
+        if (context.canceled)
+        {
+            isJumping = false;
+        }*/
     }
-    public void OnCrouch(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            Debug.Log("He started to crouch!");
-        }
-        else if (context.performed)
-        {
-            Debug.Log("He's still crouching!");
-        }
-        else if (context.canceled)
-        {
-            Debug.Log("He's stopped crouching!");
-        }
-    }
+
+
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log(context.ReadValue<Vector2>().ToString());
-        inputVector = context.ReadValue<Vector2>();
+       inputVector=context.ReadValue<Vector2>();
+        
     }
 
     private void Start()
     {
         walkSpeed = speed;
     }
+
+
     private void Update()
     {
+        Vector2 verticalMovement = Vector2.up * jumpSpeed;
         controller.Move(inputVector * Time.deltaTime * speed);
     }
+
 }
