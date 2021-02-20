@@ -10,12 +10,14 @@ public class InputManager : MonoBehaviour
     public CharacterController controller;
     
     public float jumpSpeed;
-    public float gravity;
+    public float gravitySpeed;
 
     [SerializeField]
     //To store the walk speed before running and switch back to afterwards
-    private float walkSpeed;    
+    private float walkSpeed;   
     private Vector2 inputVector;
+    private Vector2 verticalVelocityVector;
+    private bool jumpPushed;
 
 
     public void OnSwing(InputAction.CallbackContext context)
@@ -65,20 +67,21 @@ public class InputManager : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        /*if (context.started)
+       if (context.started)
         {
-            if (controller.isGrounded && !isJumping)
+            if (controller.isGrounded && !jumpPushed)
             {
-                isJumping = true;
-                velocity = inputVector * speed;
-                velocity.y = Mathf.Sqrt(2 * gravity * jumpHeight);
+                jumpPushed = true;
+               
+                //velocity = inputVector * speed;
+                //velocity.y = Mathf.Sqrt(2 * gravity * jumpHeight);
             } 
         }
 
         if (context.canceled)
         {
-            isJumping = false;
-        }*/
+            jumpPushed = false;
+        }
     }
 
 
@@ -97,8 +100,13 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        Vector2 verticalMovement = Vector2.up * jumpSpeed;
-        controller.Move(inputVector * Time.deltaTime * speed);
+        Vector2 velocityVector;
+        if (!controller.isGrounded)
+        {
+            
+        }
+        
+        controller.Move((inputVector*speed )* Time.deltaTime);
     }
 
 }
