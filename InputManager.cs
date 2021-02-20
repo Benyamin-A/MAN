@@ -9,8 +9,9 @@ public class InputManager : MonoBehaviour
     public float sprintSpeed;
     public CharacterController controller;
     
-    public float jumpSpeed;
+    public float jumpHeight;
     public float gravitySpeed;
+    public float maxHeight;
 
     [SerializeField]
     //To store the walk speed before running and switch back to afterwards
@@ -67,14 +68,16 @@ public class InputManager : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-       if (context.started)
+       if (context.performed)
         {
             if (controller.isGrounded && !jumpPushed)
             {
                 jumpPushed = true;
-               
-                //velocity = inputVector * speed;
-                //velocity.y = Mathf.Sqrt(2 * gravity * jumpHeight);
+                if (this.transform.position.y<maxHeight)
+                {
+                    inputVector.y += Mathf.Sqrt(jumpHeight * -3.0f * gravitySpeed);
+                }
+                
             } 
         }
 
@@ -100,13 +103,18 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        Vector2 velocityVector;
-        if (!controller.isGrounded)
+
+        if (controller.isGrounded && inputVector.y<0)
         {
-            
+            inputVector.y = 0;
         }
-        
-        controller.Move((inputVector*speed )* Time.deltaTime);
+
+        inputVector.y += gravitySpeed * Time.deltaTime;
+        /*Vector2 horizontalV = new Vector2(inputVector.x, 0);
+        Vector2 verticalV = new Vector2(0, inputVector.y);
+        controller.Move((horizontalV*speed+verticalV)* Time.deltaTime);
+        */
+        controller.Move(inputVector * speed * Time.deltaTime);
     }
 
 }
