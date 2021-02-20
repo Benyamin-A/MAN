@@ -19,7 +19,7 @@ public class InputManager : MonoBehaviour
     private Vector2 inputVector;
     private Vector2 verticalVelocityVector;
     private bool jumpPushed;
-
+    private bool facingRight;
 
     public void OnSwing(InputAction.CallbackContext context)
     {
@@ -91,13 +91,28 @@ public class InputManager : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-       inputVector=context.ReadValue<Vector2>();
-        
+
+        inputVector=context.ReadValue<Vector2>();
+        if (context.started)
+        {
+            if (!facingRight && inputVector.x > 0)
+            {
+                transform.Rotate(0f, 180f, 0f);
+                facingRight = true;
+            }
+            if (facingRight && inputVector.x<0)
+            {
+                transform.Rotate(0f, 180f, 0f);
+                facingRight = false;
+            }
+
+        }   
     }
 
     private void Start()
     {
         walkSpeed = speed;
+        facingRight = true;
     }
 
 
@@ -110,10 +125,7 @@ public class InputManager : MonoBehaviour
         }
 
         inputVector.y += gravitySpeed * Time.deltaTime;
-        /*Vector2 horizontalV = new Vector2(inputVector.x, 0);
-        Vector2 verticalV = new Vector2(0, inputVector.y);
-        controller.Move((horizontalV*speed+verticalV)* Time.deltaTime);
-        */
+
         controller.Move(inputVector * speed * Time.deltaTime);
     }
 
