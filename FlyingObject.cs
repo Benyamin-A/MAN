@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlyingObject : MonoBehaviour
 {
     public float speed=15f;
-    public Rigidbody2D rB;
+    public Rigidbody rB;
     void Start()
     {
         rB.velocity = transform.right * speed;
