@@ -24,6 +24,9 @@ public class EnemyScript : MonoBehaviour
     void Die()
     {
         Debug.Log("enemy died.");
+
+        GetComponent<Collider>().enabled = false;
+        this.enabled = false;
         Destroy(gameObject);
     }
 }

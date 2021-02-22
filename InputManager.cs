@@ -17,7 +17,6 @@ public class InputManager : MonoBehaviour
     //To store the walk speed before running and switch back to afterwards
     private float walkSpeed;   
     private Vector2 inputVector;
-    private Vector2 verticalVelocityVector;
     private bool jumpPushed;
     private bool facingRight;
 

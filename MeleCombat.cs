@@ -10,12 +10,15 @@ public class MeleCombat : MonoBehaviour
     public float attackRange = 0.5f;
     public int attackDamage=40;
     public LayerMask enemyLayers;
+
+
     public void OnMelee(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             Attack();
         }
+
     }
 
     void Attack()
@@ -34,4 +37,6 @@ public class MeleCombat : MonoBehaviour
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+
+
 }
